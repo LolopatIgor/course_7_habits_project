@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-3$2#b(@r6^kj83@hlng_zmu4ku@vtw!0ebif@%jfp*3+3$5ype
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,7 +140,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 
-bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
+if not bot_token:
+    raise ValueError("TELEGRAM_BOT_TOKEN не найден в переменных окружения.")
 bot = Bot(token=bot_token)
 
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
@@ -160,3 +162,4 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
 }
+
